@@ -1,14 +1,15 @@
 local Gokai = {}
 Gokai.__index = Gokai
 
-local TweenService      = game:GetService("TweenService")
-local UserInputService  = game:GetService("UserInputService")
-local HttpService        = game:GetService("HttpService")
-local CoreGui           = game:GetService("CoreGui")
-local RunService        = game:GetService("RunService")
+local TweenService     = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local HttpService      = game:GetService("HttpService")
+local CoreGui          = game:GetService("CoreGui")
 
 local LucideLoaded, LucideModule = pcall(function()
-	return (loadstring(game:HttpGet("https://gitlab.com/upio/lucide-roblox-direct/-/raw/main/source.lua")))()
+	return (loadstring(game:HttpGet(
+		"https://gitlab.com/upio/lucide-roblox-direct/-/raw/main/source.lua"
+	)))()
 end)
 
 local THEME = {
@@ -29,34 +30,40 @@ local THEME = {
 
 local THEMES = {
 	Midnight = {
-		Background=Color3.fromRGB(5,5,5), Surface=Color3.fromRGB(13,13,13), SurfaceMid=Color3.fromRGB(18,18,18),
-		SurfaceHigh=Color3.fromRGB(25,25,25), Border=Color3.fromRGB(38,38,38), BorderHigh=Color3.fromRGB(55,55,55),
+		Background=Color3.fromRGB(5,5,5),     Surface=Color3.fromRGB(13,13,13),   SurfaceMid=Color3.fromRGB(18,18,18),
+		SurfaceHigh=Color3.fromRGB(25,25,25), Border=Color3.fromRGB(38,38,38),    BorderHigh=Color3.fromRGB(55,55,55),
 		TextPrimary=Color3.fromRGB(235,235,235), TextSub=Color3.fromRGB(145,145,145), TextMuted=Color3.fromRGB(75,75,75),
+		ToggleOn=Color3.fromRGB(210,210,210), ToggleOff=Color3.fromRGB(38,38,38),
 	},
 	Slate = {
-		Background=Color3.fromRGB(8,10,14), Surface=Color3.fromRGB(13,16,22), SurfaceMid=Color3.fromRGB(19,23,32),
-		SurfaceHigh=Color3.fromRGB(27,32,44), Border=Color3.fromRGB(42,48,64), BorderHigh=Color3.fromRGB(58,67,86),
+		Background=Color3.fromRGB(8,10,14),    Surface=Color3.fromRGB(13,16,22),   SurfaceMid=Color3.fromRGB(19,23,32),
+		SurfaceHigh=Color3.fromRGB(27,32,44),  Border=Color3.fromRGB(42,48,64),    BorderHigh=Color3.fromRGB(58,67,86),
 		TextPrimary=Color3.fromRGB(224,230,242), TextSub=Color3.fromRGB(138,148,168), TextMuted=Color3.fromRGB(70,80,100),
+		ToggleOn=Color3.fromRGB(160,180,220),  ToggleOff=Color3.fromRGB(42,48,64),
 	},
 	Carbon = {
-		Background=Color3.fromRGB(10,8,7), Surface=Color3.fromRGB(16,14,12), SurfaceMid=Color3.fromRGB(22,19,17),
-		SurfaceHigh=Color3.fromRGB(30,27,24), Border=Color3.fromRGB(46,41,36), BorderHigh=Color3.fromRGB(64,57,50),
+		Background=Color3.fromRGB(10,8,7),     Surface=Color3.fromRGB(16,14,12),   SurfaceMid=Color3.fromRGB(22,19,17),
+		SurfaceHigh=Color3.fromRGB(30,27,24),  Border=Color3.fromRGB(46,41,36),    BorderHigh=Color3.fromRGB(64,57,50),
 		TextPrimary=Color3.fromRGB(238,232,225), TextSub=Color3.fromRGB(155,145,135), TextMuted=Color3.fromRGB(80,72,65),
+		ToggleOn=Color3.fromRGB(210,190,170),  ToggleOff=Color3.fromRGB(46,41,36),
 	},
 	Frost = {
-		Background=Color3.fromRGB(6,9,13), Surface=Color3.fromRGB(10,15,21), SurfaceMid=Color3.fromRGB(15,22,31),
-		SurfaceHigh=Color3.fromRGB(20,30,44), Border=Color3.fromRGB(34,50,68), BorderHigh=Color3.fromRGB(50,72,95),
+		Background=Color3.fromRGB(6,9,13),     Surface=Color3.fromRGB(10,15,21),   SurfaceMid=Color3.fromRGB(15,22,31),
+		SurfaceHigh=Color3.fromRGB(20,30,44),  Border=Color3.fromRGB(34,50,68),    BorderHigh=Color3.fromRGB(50,72,95),
 		TextPrimary=Color3.fromRGB(218,234,248), TextSub=Color3.fromRGB(128,155,180), TextMuted=Color3.fromRGB(62,88,114),
+		ToggleOn=Color3.fromRGB(140,190,240),  ToggleOff=Color3.fromRGB(34,50,68),
 	},
 	Stone = {
-		Background=Color3.fromRGB(9,9,9), Surface=Color3.fromRGB(15,15,14), SurfaceMid=Color3.fromRGB(21,21,20),
-		SurfaceHigh=Color3.fromRGB(29,29,27), Border=Color3.fromRGB(44,44,42), BorderHigh=Color3.fromRGB(61,61,58),
+		Background=Color3.fromRGB(9,9,9),      Surface=Color3.fromRGB(15,15,14),   SurfaceMid=Color3.fromRGB(21,21,20),
+		SurfaceHigh=Color3.fromRGB(29,29,27),  Border=Color3.fromRGB(44,44,42),    BorderHigh=Color3.fromRGB(61,61,58),
 		TextPrimary=Color3.fromRGB(230,228,223), TextSub=Color3.fromRGB(146,144,138), TextMuted=Color3.fromRGB(76,74,70),
+		ToggleOn=Color3.fromRGB(200,198,190),  ToggleOff=Color3.fromRGB(44,44,42),
 	},
 	Ember = {
-		Background=Color3.fromRGB(10,6,5), Surface=Color3.fromRGB(16,11,9), SurfaceMid=Color3.fromRGB(22,15,13),
-		SurfaceHigh=Color3.fromRGB(31,22,18), Border=Color3.fromRGB(50,34,28), BorderHigh=Color3.fromRGB(68,48,39),
+		Background=Color3.fromRGB(10,6,5),     Surface=Color3.fromRGB(16,11,9),    SurfaceMid=Color3.fromRGB(22,15,13),
+		SurfaceHigh=Color3.fromRGB(31,22,18),  Border=Color3.fromRGB(50,34,28),    BorderHigh=Color3.fromRGB(68,48,39),
 		TextPrimary=Color3.fromRGB(240,228,220), TextSub=Color3.fromRGB(162,138,125), TextMuted=Color3.fromRGB(88,68,58),
+		ToggleOn=Color3.fromRGB(220,170,140),  ToggleOff=Color3.fromRGB(50,34,28),
 	},
 }
 
@@ -64,10 +71,11 @@ local CONFIG_FOLDER = "GokaiUI/configs"
 local AUTOLOAD_FILE = "GokaiUI/autoload.txt"
 
 local function hasFS()
-	return isfolder and writefile and readfile and listfiles and makefolder
+	return isfolder ~= nil and writefile ~= nil and readfile ~= nil and listfiles ~= nil and makefolder ~= nil
 end
 
 local function ensureFolder()
+	if not hasFS() then return end
 	pcall(function()
 		if not isfolder("GokaiUI") then makefolder("GokaiUI") end
 		if not isfolder(CONFIG_FOLDER) then makefolder(CONFIG_FOLDER) end
@@ -113,31 +121,52 @@ local function setAutoload(name)
 	if not hasFS() then return end
 	ensureFolder()
 	pcall(function()
-		if name then writefile(AUTOLOAD_FILE, name)
-		else if isfile(AUTOLOAD_FILE) then delfile(AUTOLOAD_FILE) end end
+		if name and name ~= "" then
+			writefile(AUTOLOAD_FILE, name)
+		else
+			if isfile and isfile(AUTOLOAD_FILE) then delfile(AUTOLOAD_FILE) end
+		end
 	end)
 end
 
 local function getAutoload()
 	if not hasFS() then return nil end
+	if isfile and not isfile(AUTOLOAD_FILE) then return nil end
 	local ok, v = pcall(readfile, AUTOLOAD_FILE)
-	return ok and v or nil
+	return (ok and v and v ~= "") and v or nil
+end
+
+local function c3Match(a, b)
+	return math.abs(a.R - b.R) < 0.004 and math.abs(a.G - b.G) < 0.004 and math.abs(a.B - b.B) < 0.004
+end
+
+local function mapColor(color, oldTheme, newTheme)
+	for k, old in pairs(oldTheme) do
+		if newTheme[k] and c3Match(color, old) then return newTheme[k] end
+	end
+	return nil
 end
 
 local function Tween(obj, props, t, style)
-	TweenService:Create(obj, TweenInfo.new(t or 0.16, style or Enum.EasingStyle.Quart, Enum.EasingDirection.Out), props):Play()
+	TweenService:Create(
+		obj,
+		TweenInfo.new(t or 0.16, style or Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+		props
+	):Play()
 end
 
 local function New(class, props)
-	local i = Instance.new(class)
+	local inst = Instance.new(class)
 	for k, v in pairs(props) do
-		if k ~= "Parent" and k ~= "Children" then i[k] = v end
+		if k ~= "Parent" and k ~= "Children" then
+			inst[k] = v
+		end
 	end
 	if props.Children then
-		for _, c in ipairs(props.Children) do c.Parent = i end
+		for _, c in ipairs(props.Children) do c.Parent = inst end
 	end
-	if props.Parent then i.Parent = props.Parent end
-	return i
+	if props.Parent then inst.Parent = props.Parent end
+	return inst
 end
 
 local function Corner(parent, r)
@@ -146,42 +175,29 @@ end
 
 local function Border(parent, color, thickness)
 	return New("UIStroke", {
-		Color = color or THEME.Border,
-		Thickness = thickness or 1,
+		Color           = color or THEME.Border,
+		Thickness       = thickness or 1,
 		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-		Parent = parent,
+		Parent          = parent,
 	})
 end
 
-local function GradientColor(parent, stops, rotation)
+local function Gradient(parent, stops, rotation)
 	local kp = {}
-	for _, s in ipairs(stops) do
-		table.insert(kp, ColorSequenceKeypoint.new(s[1], s[2]))
-	end
-	return New("UIGradient", {
-		Color = ColorSequence.new(kp),
-		Rotation = rotation or 90,
-		Parent = parent,
-	})
+	for _, s in ipairs(stops) do table.insert(kp, ColorSequenceKeypoint.new(s[1], s[2])) end
+	return New("UIGradient", { Color = ColorSequence.new(kp), Rotation = rotation or 90, Parent = parent })
 end
 
-local function GradientTransparency(parent, stops, rotation)
+local function GradAlpha(parent, stops, rotation)
 	local kp = {}
-	for _, s in ipairs(stops) do
-		table.insert(kp, NumberSequenceKeypoint.new(s[1], s[2]))
-	end
-	return New("UIGradient", {
-		Transparency = NumberSequence.new(kp),
-		Rotation = rotation or 90,
-		Parent = parent,
-	})
+	for _, s in ipairs(stops) do table.insert(kp, NumberSequenceKeypoint.new(s[1], s[2])) end
+	return New("UIGradient", { Transparency = NumberSequence.new(kp), Rotation = rotation or 90, Parent = parent })
 end
 
 local function GetIcon(name)
 	if not LucideLoaded or not LucideModule or not name or name == "" then return nil end
 	local ok, icon = pcall(LucideModule.GetAsset, name)
-	if not ok or not icon then return nil end
-	return icon
+	return (ok and icon) and icon or nil
 end
 
 local function Icon(parent, name, size, pos, color)
@@ -223,22 +239,22 @@ end
 
 local function CalcScale()
 	local vp = workspace.CurrentCamera.ViewportSize
-	local sx = (vp.X - 20) / 580
-	local sy = (vp.Y - 60) / 450
+	local sx  = (vp.X - 20) / 580
+	local sy  = (vp.Y - 60) / 450
 	return math.max(math.min(sx, sy, 1.0), 0.52)
 end
 
 function Gokai.new(config)
-	local self = setmetatable({}, Gokai)
-	config = config or {}
-
-	self.Title   = config.Title   or "Gokai"
-	self.Footer  = config.Footer  or ""
-	self.Logo    = config.Logo    or ""
-	self.Tabs    = {}
-	self.Active  = nil
-	self.Open    = true
-	self._values = {}
+	local self       = setmetatable({}, Gokai)
+	config           = config or {}
+	self.Title       = config.Title  or "Gokai"
+	self.Footer      = config.Footer or ""
+	self.Logo        = config.Logo   or ""
+	self.Tabs        = {}
+	self.Active      = nil
+	self.Open        = true
+	self._flags      = {}
+	self._currentTheme = "Midnight"
 
 	local gui = New("ScreenGui", {
 		Name           = "GokaiUI",
@@ -260,7 +276,7 @@ function Gokai.new(config)
 	local win = New("Frame", {
 		Name             = "Window",
 		Size             = UDim2.new(0, W, 0, H),
-		Position         = UDim2.new(0.5, -W/2, 0.5, -H/2),
+		Position         = UDim2.new(0.5, -W / 2, 0.5, -H / 2),
 		BackgroundColor3 = THEME.Background,
 		BorderSizePixel  = 0,
 		ClipsDescendants = false,
@@ -268,15 +284,15 @@ function Gokai.new(config)
 	})
 	Corner(win, 10)
 	Border(win, THEME.Border, 1)
+	self._win = win
 
 	local winClip = New("Frame", {
-		Size             = UDim2.new(1, 0, 1, 0),
+		Size                   = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		ClipsDescendants = true,
-		Parent           = win,
+		ClipsDescendants       = true,
+		Parent                 = win,
 	})
 	Corner(winClip, 10)
-	self._win     = win
 	self._winClip = winClip
 
 	local topBar = New("Frame", {
@@ -294,33 +310,33 @@ function Gokai.new(config)
 		BorderSizePixel  = 0,
 		Parent           = topBar,
 	})
-	GradientColor(topBar, {
-		{0, Color3.fromRGB(30, 30, 30)},
-		{0.5, Color3.fromRGB(16, 16, 16)},
-		{1, Color3.fromRGB(8, 8, 8)},
+	Gradient(topBar, {
+		{ 0,   Color3.fromRGB(30, 30, 30) },
+		{ 0.5, Color3.fromRGB(16, 16, 16) },
+		{ 1,   Color3.fromRGB(8,  8,  8)  },
 	}, 180)
-	local shine = New("Frame", {
+	local topShine = New("Frame", {
 		Size             = UDim2.new(1, 0, 0, 1),
 		BackgroundColor3 = THEME.White,
 		BorderSizePixel  = 0,
 		Parent           = topBar,
 	})
-	GradientTransparency(shine, { {0, 1}, {0.15, 0.55}, {0.5, 0.55}, {0.85, 0.55}, {1, 1} }, 0)
+	GradAlpha(topShine, { {0,1},{0.15,0.55},{0.5,0.55},{0.85,0.55},{1,1} }, 0)
 	Draggable(topBar, win)
 
 	if self.Logo ~= "" then
 		New("ImageLabel", {
-			Size             = UDim2.new(0, 18, 0, 18),
-			Position         = UDim2.new(0, 12, 0.5, -9),
+			Size                   = UDim2.new(0, 18, 0, 18),
+			Position               = UDim2.new(0, 12, 0.5, -9),
 			BackgroundTransparency = 1,
-			Image            = self.Logo,
-			ScaleType        = Enum.ScaleType.Fit,
-			Parent           = topBar,
+			Image                  = self.Logo,
+			ScaleType              = Enum.ScaleType.Fit,
+			Parent                 = topBar,
 		})
 	end
 	local logoOff = self.Logo ~= "" and 36 or 12
 	New("TextLabel", {
-		Size             = UDim2.new(1, -(logoOff + 80), 1, 0),
+		Size             = UDim2.new(1, -(logoOff + 16), 1, 0),
 		Position         = UDim2.new(0, logoOff, 0, 0),
 		BackgroundTransparency = 1,
 		Text             = self.Title,
@@ -331,42 +347,18 @@ function Gokai.new(config)
 		Parent           = topBar,
 	})
 
-	local closeBtn = New("TextButton", {
-		Name             = "Close",
-		Size             = UDim2.new(0, 28, 0, 28),
-		Position         = UDim2.new(1, -34, 0.5, -14),
-		BackgroundColor3 = THEME.SurfaceHigh,
-		Text             = "",
-		BorderSizePixel  = 0,
-		Parent           = topBar,
-	})
-	Corner(closeBtn, 6)
-	Border(closeBtn, THEME.Border, 1)
-	local closeIcon = Icon(closeBtn, "x", UDim2.new(0, 12, 0, 12), UDim2.new(0.5, -6, 0.5, -6), THEME.TextSub)
-	if not closeIcon then
-		New("TextLabel", {
-			Size             = UDim2.new(1, 0, 1, 0),
-			BackgroundTransparency = 1,
-			Text             = "×",
-			Font             = Enum.Font.GothamBold,
-			TextSize         = 16,
-			TextColor3       = THEME.TextSub,
-			Parent           = closeBtn,
-		})
-	end
-
 	local tabBar = New("Frame", {
-		Name             = "TabBar",
-		Size             = UDim2.new(1, -20, 0, 28),
-		Position         = UDim2.new(0, 10, 0, 42),
+		Name                   = "TabBar",
+		Size                   = UDim2.new(1, -20, 0, 28),
+		Position               = UDim2.new(0, 10, 0, 42),
 		BackgroundTransparency = 1,
-		Parent           = winClip,
+		Parent                 = winClip,
 	})
 	New("UIListLayout", {
-		FillDirection    = Enum.FillDirection.Horizontal,
-		SortOrder        = Enum.SortOrder.LayoutOrder,
-		Padding          = UDim.new(0, 3),
-		Parent           = tabBar,
+		FillDirection = Enum.FillDirection.Horizontal,
+		SortOrder     = Enum.SortOrder.LayoutOrder,
+		Padding       = UDim.new(0, 3),
+		Parent        = tabBar,
 	})
 	self._tabBar = tabBar
 
@@ -379,12 +371,12 @@ function Gokai.new(config)
 	})
 
 	local content = New("Frame", {
-		Name             = "Content",
-		Size             = UDim2.new(1, -16, 1, -98),
-		Position         = UDim2.new(0, 8, 0, 75),
+		Name                   = "Content",
+		Size                   = UDim2.new(1, -16, 1, -98),
+		Position               = UDim2.new(0, 8, 0, 75),
 		BackgroundTransparency = 1,
-		ClipsDescendants = false,
-		Parent           = winClip,
+		ClipsDescendants       = false,
+		Parent                 = winClip,
 	})
 	self._content = content
 
@@ -396,16 +388,13 @@ function Gokai.new(config)
 		BorderSizePixel  = 0,
 		Parent           = winClip,
 	})
-	GradientColor(footer, {
-		{0, Color3.fromRGB(14, 14, 14)},
-		{1, Color3.fromRGB(6, 6, 6)},
-	}, 180)
 	New("Frame", {
 		Size             = UDim2.new(1, 0, 0, 8),
 		BackgroundColor3 = THEME.Surface,
 		BorderSizePixel  = 0,
 		Parent           = footer,
 	})
+	Gradient(footer, { {0,Color3.fromRGB(14,14,14)},{1,Color3.fromRGB(6,6,6)} }, 180)
 	New("TextLabel", {
 		Size             = UDim2.new(0.5, -8, 1, 0),
 		Position         = UDim2.new(0, 10, 0, 0),
@@ -430,96 +419,170 @@ function Gokai.new(config)
 	})
 
 	local popupLayer = New("Frame", {
-		Name             = "PopupLayer",
-		Size             = UDim2.new(1, 0, 1, 0),
-		Position         = UDim2.new(0, 0, 0, 0),
+		Name                   = "PopupLayer",
+		Size                   = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		ClipsDescendants = false,
-		ZIndex           = 200,
-		Parent           = gui,
+		ClipsDescendants       = false,
+		ZIndex                 = 200,
+		Parent                 = gui,
 	})
 	self._popupLayer = popupLayer
 
 	local inputSink = New("TextButton", {
-		Name             = "InputSink",
-		Size             = UDim2.new(1, 0, 1, 0),
+		Name                   = "InputSink",
+		Size                   = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		Text             = "",
-		BorderSizePixel  = 0,
-		ZIndex           = 150,
-		Visible          = false,
-		Active           = true,
-		Parent           = gui,
+		Text                   = "",
+		BorderSizePixel        = 0,
+		ZIndex                 = 150,
+		Visible                = false,
+		Active                 = true,
+		Parent                 = gui,
 	})
 	self._inputSink = inputSink
 
-	local fading = false
-	local function toggleWindow(value)
-		if fading then return end
-		if typeof(value) == "boolean" then self.Open = value
-		else self.Open = not self.Open end
+	local toggleBtn = New("TextButton", {
+		Name             = "ToggleBtn",
+		Size             = UDim2.new(0, 28, 0, 56),
+		AnchorPoint      = Vector2.new(0, 0.5),
+		Position         = UDim2.new(0, 6, 0.5, 0),
+		BackgroundColor3 = THEME.SurfaceMid,
+		Text             = "",
+		BorderSizePixel  = 0,
+		ZIndex           = 10,
+		Parent           = gui,
+	})
+	Corner(toggleBtn, 8)
+	Border(toggleBtn, THEME.Border, 1)
+	Gradient(toggleBtn, {
+		{0, Color3.fromRGB(26, 26, 26)},
+		{1, Color3.fromRGB(12, 12, 12)},
+	}, 180)
+	local toggleIcOpen  = Icon(toggleBtn, "panel-left-open",  UDim2.new(0,14,0,14), UDim2.new(0.5,-7,0.5,-7), THEME.TextSub)
+	local toggleIcClose = Icon(toggleBtn, "panel-left-close", UDim2.new(0,14,0,14), UDim2.new(0.5,-7,0.5,-7), THEME.TextSub)
+	if not toggleIcOpen and not toggleIcClose then
+		local fallback = New("TextLabel", {
+			Size             = UDim2.new(1,0,1,0),
+			BackgroundTransparency = 1,
+			Text             = "≡",
+			Font             = Enum.Font.GothamBold,
+			TextSize         = 16,
+			TextColor3       = THEME.TextSub,
+			Parent           = toggleBtn,
+		})
+		self._toggleFallback = fallback
+	end
+	if toggleIcClose then toggleIcClose.Visible = false end
+	self._toggleIcOpen  = toggleIcOpen
+	self._toggleIcClose = toggleIcClose
 
-		fading = true
+	local function setToggleIcon(open)
+		if toggleIcOpen  then toggleIcOpen.Visible  = not open end
+		if toggleIcClose then toggleIcClose.Visible = open end
+	end
+
+	local function toggleWindow(v)
+		self.Open = (v ~= nil) and v or (not self.Open)
 		if self.Open then
-			winClip.Visible = true
-			local tweens = {}
-			for _, inst in ipairs(win:GetDescendants()) do
-				if inst:IsA("GuiObject") then
-					local t = TweenService:Create(inst, TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {GroupTransparency = 0})
-					pcall(function() t:Play() end)
-				end
-			end
-			Tween(win, { Size = UDim2.new(0, W, 0, H) }, 0.22, Enum.EasingStyle.Quad)
-			task.delay(0.23, function() fading = false end)
+			win.Visible = true
+			Tween(win, { Size = UDim2.new(0, W, 0, H) }, 0.2, Enum.EasingStyle.Quart)
+			Tween(toggleBtn, { BackgroundColor3 = THEME.SurfaceMid }, 0.15)
 		else
-			Tween(win, { Size = UDim2.new(0, W, 0, 0) }, 0.2, Enum.EasingStyle.Quad)
-			task.delay(0.21, function()
-				winClip.Visible = false
-				fading = false
-			end)
+			Tween(win, { Size = UDim2.new(0, W, 0, 0) }, 0.18, Enum.EasingStyle.Quart)
+			task.delay(0.19, function() win.Visible = false end)
+			Tween(toggleBtn, { BackgroundColor3 = THEME.SurfaceHigh }, 0.15)
 		end
+		setToggleIcon(self.Open)
 	end
 	self.Toggle = toggleWindow
 
-	closeBtn.MouseButton1Click:Connect(function() toggleWindow(false) end)
-	closeBtn.MouseEnter:Connect(function() Tween(closeBtn, { BackgroundColor3 = Color3.fromRGB(50, 30, 30) }, 0.12) end)
-	closeBtn.MouseLeave:Connect(function() Tween(closeBtn, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
-
-	UserInputService.InputBegan:Connect(function(i, gp)
-		if gp then return end
-		if i.KeyCode == Enum.KeyCode.RightShift or i.KeyCode == Enum.KeyCode.Insert then
-			toggleWindow()
-		end
-	end)
+	toggleBtn.MouseButton1Click:Connect(function() toggleWindow() end)
+	toggleBtn.MouseEnter:Connect(function() Tween(toggleBtn, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
+	toggleBtn.MouseLeave:Connect(function() Tween(toggleBtn, { BackgroundColor3 = self.Open and THEME.SurfaceMid or THEME.SurfaceHigh }, 0.12) end)
 
 	self:_buildSettingsTab()
 	return self
 end
 
+function Gokai:_applyTheme(name)
+	local newTheme = THEMES[name]
+	if not newTheme then return end
+
+	local oldTheme = {}
+	for k, v in pairs(THEME) do oldTheme[k] = v end
+
+	for k, v in pairs(newTheme) do THEME[k] = v end
+	if newTheme.ToggleOff then THEME.ToggleOff = newTheme.ToggleOff end
+	if newTheme.ToggleOn  then THEME.ToggleOn  = newTheme.ToggleOn  end
+
+	self._currentTheme = name
+
+	for _, inst in ipairs(self._gui:GetDescendants()) do
+		pcall(function()
+			if inst:IsA("GuiObject") and inst.BackgroundTransparency < 1 then
+				local nc = mapColor(inst.BackgroundColor3, oldTheme, newTheme)
+				if nc then inst.BackgroundColor3 = nc end
+			end
+
+			if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
+				local nc = mapColor(inst.TextColor3, oldTheme, newTheme)
+				if nc then inst.TextColor3 = nc end
+				if inst:IsA("TextBox") then
+					local pc = mapColor(inst.PlaceholderColor3, oldTheme, newTheme)
+					if pc then inst.PlaceholderColor3 = pc end
+				end
+			end
+
+			if inst:IsA("UIStroke") then
+				local nc = mapColor(inst.Color, oldTheme, newTheme)
+				if nc then inst.Color = nc end
+			end
+
+			if inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
+				if inst.Image ~= "" then
+					local nc = mapColor(inst.ImageColor3, oldTheme, newTheme)
+					if nc then inst.ImageColor3 = nc end
+				end
+			end
+
+			if inst:IsA("UIGradient") and inst.Color ~= ColorSequence.new(Color3.new(1,1,1)) then
+				local kps = inst.Color.Keypoints
+				local changed = false
+				local newKps = {}
+				for _, kp in ipairs(kps) do
+					local nc = mapColor(kp.Value, oldTheme, newTheme)
+					if nc then changed = true; table.insert(newKps, ColorSequenceKeypoint.new(kp.Time, nc))
+					else table.insert(newKps, kp) end
+				end
+				if changed then inst.Color = ColorSequence.new(newKps) end
+			end
+		end)
+	end
+end
+
 function Gokai:AddTab(cfg)
 	cfg = cfg or {}
-	local self_win   = self._win
+	local tab = { Name = cfg.Name or "Tab", Icon = cfg.Icon or "", Groups = {} }
+
 	local inputSink  = self._inputSink
 	local popupLayer = self._popupLayer
 
-	local tab = { Name = cfg.Name or "Tab", Icon = cfg.Icon or "", Groups = {} }
-
 	local hasIcon = tab.Icon ~= ""
-	local tw = #tab.Name * 7 + (hasIcon and 20 or 0) + 22
+	local tw      = #tab.Name * 7 + (hasIcon and 20 or 0) + 22
 
 	local btn = New("TextButton", {
-		Name             = tab.Name,
-		Size             = UDim2.new(0, tw, 1, 0),
+		Name                   = tab.Name,
+		Size                   = UDim2.new(0, tw, 1, 0),
 		BackgroundTransparency = 1,
-		Text             = "",
-		BorderSizePixel  = 0,
-		LayoutOrder      = #self.Tabs + 1,
-		Parent           = self._tabBar,
+		Text                   = "",
+		BorderSizePixel        = 0,
+		LayoutOrder            = #self.Tabs + 1,
+		Parent                 = self._tabBar,
 	})
 
 	local iconW = 0
 	if hasIcon then
-		local ic = Icon(btn, tab.Icon, UDim2.new(0, 13, 0, 13), UDim2.new(0, 6, 0.5, -6.5), THEME.TextMuted)
+		local ic = Icon(btn, tab.Icon, UDim2.new(0,13,0,13), UDim2.new(0,6,0.5,-6.5), THEME.TextMuted)
 		if ic then iconW = 19 end
 	end
 
@@ -546,25 +609,25 @@ function Gokai:AddTab(cfg)
 	Corner(bar, 1)
 
 	local page = New("Frame", {
-		Name             = tab.Name,
-		Size             = UDim2.new(1, 0, 1, 0),
+		Name                   = tab.Name,
+		Size                   = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		Visible          = false,
-		Parent           = self._content,
+		Visible                = false,
+		Parent                 = self._content,
 	})
 
 	local leftCol = New("Frame", {
-		Size             = UDim2.new(0.5, -4, 1, 0),
+		Size                   = UDim2.new(0.5, -4, 1, 0),
 		BackgroundTransparency = 1,
-		Parent           = page,
+		Parent                 = page,
 	})
 	New("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6), Parent = leftCol })
 
 	local rightCol = New("Frame", {
-		Size             = UDim2.new(0.5, -4, 1, 0),
-		Position         = UDim2.new(0.5, 4, 0, 0),
+		Size                   = UDim2.new(0.5, -4, 1, 0),
+		Position               = UDim2.new(0.5, 4, 0, 0),
 		BackgroundTransparency = 1,
-		Parent           = page,
+		Parent                 = page,
 	})
 	New("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6), Parent = rightCol })
 
@@ -600,8 +663,8 @@ function Gokai:AddTab(cfg)
 
 	function tab:AddGroupbox(gcfg)
 		gcfg = gcfg or {}
-		local gb = { Name = gcfg.Name or "Group", Icon = gcfg.Icon or "", Side = gcfg.Side or "left" }
-		local col = gb.Side == "right" and rightCol or leftCol
+		local gb   = { Name = gcfg.Name or "Group", Icon = gcfg.Icon or "", Side = gcfg.Side or "left" }
+		local col  = gb.Side == "right" and rightCol or leftCol
 
 		local box = New("Frame", {
 			Name             = gb.Name,
@@ -614,10 +677,7 @@ function Gokai:AddTab(cfg)
 		})
 		Corner(box, 7)
 		Border(box, THEME.Border, 1)
-		GradientColor(box, {
-			{0, Color3.fromRGB(16, 16, 16)},
-			{1, Color3.fromRGB(8, 8, 8)},
-		}, 180)
+		Gradient(box, { {0,Color3.fromRGB(16,16,16)},{1,Color3.fromRGB(8,8,8)} }, 180)
 
 		local hdr = New("Frame", {
 			Size             = UDim2.new(1, 0, 0, 28),
@@ -633,22 +693,18 @@ function Gokai:AddTab(cfg)
 			BorderSizePixel  = 0,
 			Parent           = hdr,
 		})
-		GradientColor(hdr, {
-			{0, Color3.fromRGB(28, 28, 28)},
-			{0.6, Color3.fromRGB(18, 18, 18)},
-			{1, Color3.fromRGB(10, 10, 10)},
-		}, 180)
+		Gradient(hdr, { {0,Color3.fromRGB(28,28,28)},{0.6,Color3.fromRGB(18,18,18)},{1,Color3.fromRGB(10,10,10)} }, 180)
 		local hdrShine = New("Frame", {
-			Size             = UDim2.new(1, 0, 0, 1),
+			Size             = UDim2.new(1,0,0,1),
 			BackgroundColor3 = THEME.White,
 			BorderSizePixel  = 0,
 			Parent           = hdr,
 		})
-		GradientTransparency(hdrShine, { {0, 1}, {0.2, 0.7}, {0.5, 0.65}, {0.8, 0.7}, {1, 1} }, 0)
+		GradAlpha(hdrShine, { {0,1},{0.2,0.7},{0.5,0.65},{0.8,0.7},{1,1} }, 0)
 
 		local iconOff = 0
 		if gb.Icon ~= "" then
-			local ic = Icon(hdr, gb.Icon, UDim2.new(0, 12, 0, 12), UDim2.new(0, 9, 0.5, -6), THEME.TextSub)
+			local ic = Icon(hdr, gb.Icon, UDim2.new(0,12,0,12), UDim2.new(0,9,0.5,-6), THEME.TextSub)
 			if ic then iconOff = 20 end
 		end
 		New("TextLabel", {
@@ -664,12 +720,12 @@ function Gokai:AddTab(cfg)
 		})
 
 		local body = New("Frame", {
-			Name             = "Body",
-			Size             = UDim2.new(1, 0, 0, 0),
-			Position         = UDim2.new(0, 0, 0, 28),
+			Name                   = "Body",
+			Size                   = UDim2.new(1, 0, 0, 0),
+			Position               = UDim2.new(0, 0, 0, 28),
 			BackgroundTransparency = 1,
-			AutomaticSize    = Enum.AutomaticSize.Y,
-			Parent           = box,
+			AutomaticSize          = Enum.AutomaticSize.Y,
+			Parent                 = box,
 		})
 		New("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 1), Parent = body })
 		New("UIPadding", {
@@ -684,12 +740,14 @@ function Gokai:AddTab(cfg)
 		gb._body = body
 		table.insert(tab.Groups, gb)
 
+		local gflags = self._flags
+
 		local function rowOrd() return #body:GetChildren() end
 
 		function gb:AddToggle(tc)
 			tc = tc or {}
 			local t = { Value = tc.Default or false }
-			if tc.Flag then self._values = self._values or {}; self._values[tc.Flag] = t end
+			if tc.Flag then gflags[tc.Flag] = t end
 
 			local row = New("TextButton", {
 				Size             = UDim2.new(1, 0, 0, 30),
@@ -700,7 +758,6 @@ function Gokai:AddTab(cfg)
 				Parent           = body,
 			})
 			Corner(row, 4)
-
 			New("TextLabel", {
 				Size             = UDim2.new(1, -46, 1, 0),
 				Position         = UDim2.new(0, 2, 0, 0),
@@ -732,33 +789,37 @@ function Gokai:AddTab(cfg)
 			})
 			Corner(thumb, 6)
 
-			local function vis(v, anim)
+			local function applyVis(v, anim)
 				if anim then
 					Tween(track, { BackgroundColor3 = v and THEME.ToggleOn or THEME.ToggleOff }, 0.18)
-					Tween(thumb, { Position = v and UDim2.new(0, 20, 0.5, -5.5) or UDim2.new(0, 3, 0.5, -5.5), BackgroundColor3 = v and THEME.White or THEME.TextMuted }, 0.18)
+					Tween(thumb, {
+						Position        = v and UDim2.new(0,20,0.5,-5.5) or UDim2.new(0,3,0.5,-5.5),
+						BackgroundColor3 = v and THEME.White or THEME.TextMuted,
+					}, 0.18)
 				else
 					track.BackgroundColor3 = v and THEME.ToggleOn or THEME.ToggleOff
-					thumb.Position = v and UDim2.new(0, 20, 0.5, -5.5) or UDim2.new(0, 3, 0.5, -5.5)
+					thumb.Position         = v and UDim2.new(0,20,0.5,-5.5) or UDim2.new(0,3,0.5,-5.5)
 					thumb.BackgroundColor3 = v and THEME.White or THEME.TextMuted
 				end
 			end
-			vis(t.Value, false)
+			applyVis(t.Value, false)
 
 			row.MouseButton1Click:Connect(function()
 				t.Value = not t.Value
-				vis(t.Value, true)
+				applyVis(t.Value, true)
 				if tc.Callback then tc.Callback(t.Value) end
 			end)
 			row.MouseEnter:Connect(function() row.BackgroundTransparency = 0; row.BackgroundColor3 = THEME.SurfaceHigh end)
 			row.MouseLeave:Connect(function() row.BackgroundTransparency = 1 end)
 
-			function t:Set(v) self.Value = v; vis(v, true); if tc.Callback then tc.Callback(v) end end
+			function t:Set(v) self.Value = v; applyVis(v, true); if tc.Callback then tc.Callback(v) end end
 			return t
 		end
 
 		function gb:AddCheckbox(cc)
 			cc = cc or {}
 			local c = { Value = cc.Default or false }
+			if cc.Flag then gflags[cc.Flag] = c end
 
 			local row = New("TextButton", {
 				Size             = UDim2.new(1, 0, 0, 30),
@@ -801,27 +862,26 @@ function Gokai:AddTab(cfg)
 				Parent           = row,
 			})
 
-			local function vis(v, anim)
+			local function applyVis(v, anim)
 				mark.Visible = v
 				if anim then Tween(box2, { BackgroundColor3 = v and THEME.White or THEME.ToggleOff }, 0.14)
 				else box2.BackgroundColor3 = v and THEME.White or THEME.ToggleOff end
 			end
-			vis(c.Value, false)
+			applyVis(c.Value, false)
 
 			row.MouseButton1Click:Connect(function()
-				c.Value = not c.Value; vis(c.Value, true)
+				c.Value = not c.Value; applyVis(c.Value, true)
 				if cc.Callback then cc.Callback(c.Value) end
 			end)
 			row.MouseEnter:Connect(function() row.BackgroundTransparency = 0; row.BackgroundColor3 = THEME.SurfaceHigh end)
 			row.MouseLeave:Connect(function() row.BackgroundTransparency = 1 end)
 
-			function c:Set(v) self.Value = v; vis(v, true); if cc.Callback then cc.Callback(v) end end
+			function c:Set(v) self.Value = v; applyVis(v, true); if cc.Callback then cc.Callback(v) end end
 			return c
 		end
 
 		function gb:AddButton(bc)
 			bc = bc or {}
-			local b = {}
 
 			local btn2 = New("TextButton", {
 				Size             = UDim2.new(1, 0, 0, 28),
@@ -833,23 +893,19 @@ function Gokai:AddTab(cfg)
 			})
 			Corner(btn2, 5)
 			Border(btn2, THEME.Border, 1)
-			GradientColor(btn2, {
-				{0, Color3.fromRGB(24, 24, 24)},
-				{0.5, Color3.fromRGB(15, 15, 15)},
-				{1, Color3.fromRGB(8, 8, 8)},
-			}, 180)
+			Gradient(btn2, { {0,Color3.fromRGB(24,24,24)},{0.5,Color3.fromRGB(15,15,15)},{1,Color3.fromRGB(8,8,8)} }, 180)
 
 			local shine2 = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, 1),
+				Size             = UDim2.new(1,0,0,1),
 				BackgroundColor3 = THEME.White,
 				BackgroundTransparency = 0.65,
 				BorderSizePixel  = 0,
 				Parent           = btn2,
 			})
-			GradientTransparency(shine2, { {0, 1}, {0.2, 0}, {0.8, 0}, {1, 1} }, 0)
+			GradAlpha(shine2, { {0,1},{0.2,0},{0.8,0},{1,1} }, 0)
 
 			New("TextLabel", {
-				Size             = UDim2.new(1, 0, 1, 0),
+				Size             = UDim2.new(1,0,1,0),
 				BackgroundTransparency = 1,
 				Text             = bc.Name or "Button",
 				Font             = Enum.Font.GothamSemibold,
@@ -859,21 +915,23 @@ function Gokai:AddTab(cfg)
 			})
 
 			btn2.MouseButton1Click:Connect(function()
-				Tween(btn2, { BackgroundColor3 = THEME.SurfaceHigh }, 0.08)
+				Tween(btn2, { BackgroundColor3 = THEME.SurfaceHigh }, 0.07)
 				task.delay(0.12, function() Tween(btn2, { BackgroundColor3 = THEME.SurfaceMid }, 0.15) end)
 				if bc.Callback then bc.Callback() end
 			end)
 			btn2.MouseEnter:Connect(function() Tween(btn2, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
 			btn2.MouseLeave:Connect(function() Tween(btn2, { BackgroundColor3 = THEME.SurfaceMid }, 0.12) end)
-			return b
+
+			return {}
 		end
 
 		function gb:AddInput(ic)
 			ic = ic or {}
 			local inp = { Value = ic.Default or "" }
 
+			local labelH = ic.Name and 16 or 0
 			local wrap = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, 44),
+				Size             = UDim2.new(1, 0, 0, labelH + 28),
 				BackgroundTransparency = 1,
 				LayoutOrder      = rowOrd(),
 				Parent           = body,
@@ -894,7 +952,7 @@ function Gokai:AddTab(cfg)
 
 			local box3 = New("TextBox", {
 				Size             = UDim2.new(1, 0, 0, 26),
-				Position         = UDim2.new(0, 0, 0, ic.Name and 16 or 0),
+				Position         = UDim2.new(0, 0, 0, labelH),
 				BackgroundColor3 = THEME.SurfaceMid,
 				BorderSizePixel  = 0,
 				Text             = ic.Default or "",
@@ -907,25 +965,18 @@ function Gokai:AddTab(cfg)
 				ClearTextOnFocus = ic.ClearOnFocus or false,
 				Parent           = wrap,
 			})
-			wrap.Size = UDim2.new(1, 0, 0, ic.Name and 44 or 28)
 			Corner(box3, 5)
 			Border(box3, THEME.Border, 1)
-			New("UIPadding", {
-				PaddingLeft  = UDim.new(0, 8),
-				PaddingRight = UDim.new(0, 8),
-				Parent       = box3,
-			})
-			GradientColor(box3, {
-				{0, Color3.fromRGB(22, 22, 22)},
-				{1, Color3.fromRGB(11, 11, 11)},
-			}, 180)
+			New("UIPadding", { PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), Parent = box3 })
+			Gradient(box3, { {0,Color3.fromRGB(22,22,22)},{1,Color3.fromRGB(11,11,11)} }, 180)
 
 			box3:GetPropertyChangedSignal("Text"):Connect(function()
 				inp.Value = box3.Text
 				if ic.Callback then ic.Callback(box3.Text) end
 			end)
-
-			box3.Focused:Connect(function() Tween(box3, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
+			box3.Focused:Connect(function()
+				Tween(box3, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12)
+			end)
 			box3.FocusLost:Connect(function(enter)
 				Tween(box3, { BackgroundColor3 = THEME.SurfaceMid }, 0.12)
 				if ic.OnEnter and enter then ic.OnEnter(box3.Text) end
@@ -938,11 +989,12 @@ function Gokai:AddTab(cfg)
 
 		function gb:AddSlider(sc)
 			sc = sc or {}
-			local s = { Value = sc.Default or sc.Min or 0 }
 			local mn, mx = sc.Min or 0, sc.Max or 100
+			local s = { Value = math.clamp(sc.Default or mn, mn, mx) }
+			if sc.Flag then gflags[sc.Flag] = s end
 
 			local wrap = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, 44),
+				Size             = UDim2.new(1, 0, 0, 46),
 				BackgroundTransparency = 1,
 				LayoutOrder      = rowOrd(),
 				Parent           = body,
@@ -976,13 +1028,13 @@ function Gokai:AddTab(cfg)
 			})
 
 			local track = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, 4),
-				Position         = UDim2.new(0, 0, 0, 28),
+				Size             = UDim2.new(1, 0, 0, 5),
+				Position         = UDim2.new(0, 0, 0, 30),
 				BackgroundColor3 = THEME.Border,
 				BorderSizePixel  = 0,
 				Parent           = wrap,
 			})
-			Corner(track, 2)
+			Corner(track, 3)
 
 			local fill = New("Frame", {
 				Size             = UDim2.new(0, 0, 1, 0),
@@ -991,35 +1043,31 @@ function Gokai:AddTab(cfg)
 				ClipsDescendants = false,
 				Parent           = track,
 			})
-			Corner(fill, 2)
-			GradientColor(fill, {
-				{0, Color3.fromRGB(255, 255, 255)},
-				{1, Color3.fromRGB(160, 160, 160)},
-			}, 0)
+			Corner(fill, 3)
+			Gradient(fill, { {0,Color3.fromRGB(255,255,255)},{1,Color3.fromRGB(160,160,160)} }, 0)
 
 			local thumb = New("Frame", {
-				Size             = UDim2.new(0, 12, 0, 12),
-				Position         = UDim2.new(1, -6, 0.5, -6),
+				Size             = UDim2.new(0, 13, 0, 13),
+				Position         = UDim2.new(1, -6, 0.5, -6.5),
 				BackgroundColor3 = THEME.White,
 				BorderSizePixel  = 0,
 				Parent           = fill,
 			})
-			Corner(thumb, 6)
+			Corner(thumb, 7)
 			Border(thumb, THEME.BorderHigh, 1.5)
 
 			local function setValue(v)
 				v = math.clamp(v, mn, mx)
 				if sc.Step then v = math.round(v / sc.Step) * sc.Step end
-				s.Value = v
+				s.Value  = v
 				local pct = (v - mn) / (mx - mn)
-				Tween(fill, { Size = UDim2.new(pct, 0, 1, 0) }, 0.07)
+				Tween(fill, { Size = UDim2.new(pct, 0, 1, 0) }, 0.06)
 				valLbl.Text = tostring(v)
 				if sc.Callback then sc.Callback(v) end
 			end
 			setValue(s.Value)
 
 			local drag = false
-
 			thumb.InputBegan:Connect(function(i)
 				if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
 					drag = true
@@ -1027,7 +1075,7 @@ function Gokai:AddTab(cfg)
 				end
 			end)
 			UserInputService.InputEnded:Connect(function(i)
-				if (i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch) and drag then
+				if drag and (i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch) then
 					drag = false
 					if inputSink then inputSink.Visible = false end
 				end
@@ -1051,11 +1099,60 @@ function Gokai:AddTab(cfg)
 			return s
 		end
 
+		local function makeDropBtn(parent, placeholder, layoutOrd, posOverride)
+			local dBtn = New("TextButton", {
+				Size             = UDim2.new(1, 0, 0, 28),
+				Position         = posOverride or UDim2.new(0,0,0,0),
+				BackgroundColor3 = THEME.SurfaceMid,
+				Text             = "",
+				BorderSizePixel  = 0,
+				LayoutOrder      = layoutOrd or 0,
+				Parent           = parent,
+			})
+			Corner(dBtn, 5)
+			Border(dBtn, THEME.Border, 1)
+			Gradient(dBtn, { {0,Color3.fromRGB(22,22,22)},{1,Color3.fromRGB(11,11,11)} }, 180)
+
+			local vLbl = New("TextLabel", {
+				Size             = UDim2.new(1, -28, 1, 0),
+				Position         = UDim2.new(0, 8, 0, 0),
+				BackgroundTransparency = 1,
+				Text             = placeholder or "Select...",
+				Font             = Enum.Font.Gotham,
+				TextSize         = 12,
+				TextColor3       = THEME.TextPrimary,
+				TextXAlignment   = Enum.TextXAlignment.Left,
+				TextTruncate     = Enum.TextTruncate.AtEnd,
+				Parent           = dBtn,
+			})
+			local arrowF = New("Frame", {
+				Size             = UDim2.new(0,20,0,20),
+				Position         = UDim2.new(1,-24,0.5,-10),
+				BackgroundTransparency = 1,
+				Parent           = dBtn,
+			})
+			local arrowIc = Icon(arrowF, "chevron-down", UDim2.new(0,12,0,12), UDim2.new(0.5,-6,0.5,-6), THEME.TextSub)
+			if not arrowIc then
+				New("TextLabel", {
+					Size             = UDim2.new(1,0,1,0),
+					BackgroundTransparency = 1,
+					Text             = "▾",
+					Font             = Enum.Font.Gotham,
+					TextSize         = 14,
+					TextColor3       = THEME.TextSub,
+					Parent           = arrowF,
+				})
+			end
+			dBtn.MouseEnter:Connect(function() Tween(dBtn, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
+			dBtn.MouseLeave:Connect(function() Tween(dBtn, { BackgroundColor3 = THEME.SurfaceMid }, 0.12) end)
+			return dBtn, vLbl
+		end
+
 		local function makePopup(btnRef, options, multi)
 			local itemH = 26
 			local popup = New("Frame", {
 				Name             = "Popup",
-				Size             = UDim2.new(0, 1, 0, 0),
+				Size             = UDim2.new(0,1,0,0),
 				BackgroundColor3 = THEME.SurfaceMid,
 				BorderSizePixel  = 0,
 				ClipsDescendants = true,
@@ -1065,10 +1162,7 @@ function Gokai:AddTab(cfg)
 			})
 			Corner(popup, 6)
 			Border(popup, THEME.BorderHigh, 1)
-			GradientColor(popup, {
-				{0, Color3.fromRGB(22, 22, 22)},
-				{1, Color3.fromRGB(10, 10, 10)},
-			}, 180)
+			Gradient(popup, { {0,Color3.fromRGB(22,22,22)},{1,Color3.fromRGB(10,10,10)} }, 180)
 			New("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Parent = popup })
 
 			local function reposition()
@@ -1080,13 +1174,12 @@ function Gokai:AddTab(cfg)
 				popup.Size     = UDim2.new(0, sz.X, 0, 0)
 			end
 
-			local isOpen  = false
+			local isOpen   = false
 			local itemRefs = {}
-			local selected = {}
 
 			for i, opt in ipairs(options) do
 				local item = New("TextButton", {
-					Size             = UDim2.new(1, 0, 0, itemH),
+					Size             = UDim2.new(1,0,0,itemH),
 					BackgroundTransparency = 1,
 					Text             = "",
 					BorderSizePixel  = 0,
@@ -1094,32 +1187,34 @@ function Gokai:AddTab(cfg)
 					ZIndex           = 61,
 					Parent           = popup,
 				})
-				local check2
+
+				local chkFrame
 				if multi then
-					check2 = New("Frame", {
-						Size             = UDim2.new(0, 13, 0, 13),
-						Position         = UDim2.new(0, 8, 0.5, -6.5),
+					chkFrame = New("Frame", {
+						Size             = UDim2.new(0,13,0,13),
+						Position         = UDim2.new(0,8,0.5,-6.5),
 						BackgroundColor3 = THEME.ToggleOff,
 						BorderSizePixel  = 0,
 						ZIndex           = 62,
 						Parent           = item,
 					})
-					Corner(check2, 3)
-					Border(check2, THEME.Border, 1)
+					Corner(chkFrame, 3)
+					Border(chkFrame, THEME.Border, 1)
 					New("ImageLabel", {
-						Size             = UDim2.new(0, 8, 0, 8),
-						Position         = UDim2.new(0.5, -4, 0.5, -4),
+						Size             = UDim2.new(0,8,0,8),
+						Position         = UDim2.new(0.5,-4,0.5,-4),
 						BackgroundTransparency = 1,
 						Image            = "rbxassetid://7072706796",
 						ImageColor3      = THEME.Black,
-						ZIndex           = 63,
 						Visible          = false,
-						Parent           = check2,
+						ZIndex           = 63,
+						Parent           = chkFrame,
 					})
 				end
+
 				local txtOff = multi and 28 or 8
 				New("TextLabel", {
-					Size             = UDim2.new(1, -(txtOff + 6), 1, 0),
+					Size             = UDim2.new(1, -(txtOff+6), 1, 0),
 					Position         = UDim2.new(0, txtOff, 0, 0),
 					BackgroundTransparency = 1,
 					Text             = tostring(opt),
@@ -1130,9 +1225,14 @@ function Gokai:AddTab(cfg)
 					ZIndex           = 62,
 					Parent           = item,
 				})
-				item.MouseEnter:Connect(function() item.BackgroundTransparency = 0; item.BackgroundColor3 = THEME.SurfaceHigh end)
+
+				item.MouseEnter:Connect(function()
+					item.BackgroundTransparency = 0
+					item.BackgroundColor3 = THEME.SurfaceHigh
+				end)
 				item.MouseLeave:Connect(function() item.BackgroundTransparency = 1 end)
-				itemRefs[i] = { frame = item, check = check2, val = opt }
+
+				itemRefs[i] = { frame = item, check = chkFrame, val = opt }
 			end
 
 			local function open()
@@ -1147,68 +1247,28 @@ function Gokai:AddTab(cfg)
 			end
 			local function toggle() if isOpen then close() else open() end end
 
-			return { popup=popup, items=itemRefs, open=open, close=close, toggle=toggle, isOpen=function() return isOpen end, selected=selected }
-		end
-
-		local function makeDropBtn(parent, placeholderText, layoutOrd)
-			local dBtn = New("TextButton", {
-				Size             = UDim2.new(1, 0, 0, 26),
-				BackgroundColor3 = THEME.SurfaceMid,
-				Text             = "",
-				BorderSizePixel  = 0,
-				LayoutOrder      = layoutOrd,
-				Parent           = parent,
-			})
-			Corner(dBtn, 5)
-			Border(dBtn, THEME.Border, 1)
-			GradientColor(dBtn, {
-				{0, Color3.fromRGB(22, 22, 22)},
-				{1, Color3.fromRGB(11, 11, 11)},
-			}, 180)
-			local vLbl = New("TextLabel", {
-				Size             = UDim2.new(1, -28, 1, 0),
-				Position         = UDim2.new(0, 8, 0, 0),
-				BackgroundTransparency = 1,
-				Text             = placeholderText or "Select...",
-				Font             = Enum.Font.Gotham,
-				TextSize         = 12,
-				TextColor3       = THEME.TextPrimary,
-				TextXAlignment   = Enum.TextXAlignment.Left,
-				Parent           = dBtn,
-			})
-			local arrowFrame = New("Frame", {
-				Size             = UDim2.new(0, 20, 0, 20),
-				Position         = UDim2.new(1, -24, 0.5, -10),
-				BackgroundTransparency = 1,
-				Parent           = dBtn,
-			})
-			local arrowIc = Icon(arrowFrame, "chevron-down", UDim2.new(0, 12, 0, 12), UDim2.new(0.5, -6, 0.5, -6), THEME.TextSub)
-			if not arrowIc then
-				New("TextLabel", {
-					Size             = UDim2.new(1, 0, 1, 0),
-					BackgroundTransparency = 1,
-					Text             = "▾",
-					Font             = Enum.Font.Gotham,
-					TextSize         = 14,
-					TextColor3       = THEME.TextSub,
-					Parent           = arrowFrame,
-				})
-			end
-			dBtn.MouseEnter:Connect(function() Tween(dBtn, { BackgroundColor3 = THEME.SurfaceHigh }, 0.12) end)
-			dBtn.MouseLeave:Connect(function() Tween(dBtn, { BackgroundColor3 = THEME.SurfaceMid }, 0.12) end)
-			return dBtn, vLbl
+			return {
+				popup   = popup,
+				items   = itemRefs,
+				open    = open,
+				close   = close,
+				toggle  = toggle,
+				isOpen  = function() return isOpen end,
+			}
 		end
 
 		function gb:AddDropdown(dc)
 			dc = dc or {}
 			local d = { Value = dc.Default }
 
+			local labelH = dc.Name and 16 or 0
 			local wrap = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, dc.Name and 44 or 28),
+				Size             = UDim2.new(1, 0, 0, labelH + 30),
 				BackgroundTransparency = 1,
 				LayoutOrder      = rowOrd(),
 				Parent           = body,
 			})
+
 			if dc.Name then
 				New("TextLabel", {
 					Size             = UDim2.new(1, 0, 0, 14),
@@ -1222,43 +1282,58 @@ function Gokai:AddTab(cfg)
 				})
 			end
 
-			local dBtn, vLbl = makeDropBtn(wrap, d.Value or "Select...", 0)
-			if dc.Name then dBtn.Position = UDim2.new(0, 0, 0, 16) end
-
-			local opts   = dc.Options or {}
-			local popup  = makePopup(dBtn, opts, false)
+			local opts = dc.Options or {}
+			local dBtn, vLbl = makeDropBtn(wrap, d.Value or "Select...", 0, UDim2.new(0,0,0,labelH))
+			local popup = makePopup(dBtn, opts, false)
 
 			for _, ref in ipairs(popup.items) do
 				ref.frame.MouseButton1Click:Connect(function()
-					d.Value = ref.val; vLbl.Text = tostring(ref.val)
+					d.Value = ref.val
+					vLbl.Text = tostring(ref.val)
 					popup.close()
 					if dc.Callback then dc.Callback(ref.val) end
 				end)
 			end
 			dBtn.MouseButton1Click:Connect(function() popup.toggle() end)
 
-			function d:Set(v) self.Value = v; vLbl.Text = tostring(v or "Select..."); if dc.Callback then dc.Callback(v) end end
+			function d:Set(v)
+				self.Value = v
+				vLbl.Text  = v and tostring(v) or "Select..."
+				if dc.Callback then dc.Callback(v) end
+			end
+
 			function d:Refresh(newOpts)
-				opts = newOpts
 				for _, c in ipairs(popup.popup:GetChildren()) do
 					if c:IsA("TextButton") then c:Destroy() end
 				end
+				opts  = newOpts
 				popup = makePopup(dBtn, newOpts, false)
+				for _, ref in ipairs(popup.items) do
+					ref.frame.MouseButton1Click:Connect(function()
+						d.Value   = ref.val
+						vLbl.Text = tostring(ref.val)
+						popup.close()
+						if dc.Callback then dc.Callback(ref.val) end
+					end)
+				end
 			end
+
 			return d
 		end
 
 		function gb:AddMultiDropdown(mc)
 			mc = mc or {}
-			local m = { Value = {} }
+			local m        = { Value = {} }
 			local selected = {}
 
+			local labelH = mc.Name and 16 or 0
 			local wrap = New("Frame", {
-				Size             = UDim2.new(1, 0, 0, mc.Name and 44 or 28),
+				Size             = UDim2.new(1, 0, 0, labelH + 30),
 				BackgroundTransparency = 1,
 				LayoutOrder      = rowOrd(),
 				Parent           = body,
 			})
+
 			if mc.Name then
 				New("TextLabel", {
 					Size             = UDim2.new(1, 0, 0, 14),
@@ -1272,16 +1347,13 @@ function Gokai:AddTab(cfg)
 				})
 			end
 
-			local dBtn, vLbl = makeDropBtn(wrap, "Select...", 0)
-			if mc.Name then dBtn.Position = UDim2.new(0, 0, 0, 16) end
-			vLbl.TextTruncate = Enum.TextTruncate.AtEnd
-
-			local popup = makePopup(dBtn, mc.Options or {}, true)
+			local dBtn, vLbl = makeDropBtn(wrap, "Select...", 0, UDim2.new(0,0,0,labelH))
+			local popup      = makePopup(dBtn, mc.Options or {}, true)
 
 			local function updateLabel()
 				local keys = {}
 				for k in pairs(selected) do table.insert(keys, k) end
-				m.Value = keys
+				m.Value   = keys
 				vLbl.Text = #keys > 0 and table.concat(keys, ", ") or "Select..."
 			end
 
@@ -1290,11 +1362,13 @@ function Gokai:AddTab(cfg)
 					if selected[ref.val] then
 						selected[ref.val] = nil
 						ref.check.BackgroundColor3 = THEME.ToggleOff
-						ref.check:FindFirstChildWhichIsA("ImageLabel").Visible = false
+						local chk = ref.check:FindFirstChildWhichIsA("ImageLabel")
+						if chk then chk.Visible = false end
 					else
 						selected[ref.val] = true
 						ref.check.BackgroundColor3 = THEME.White
-						ref.check:FindFirstChildWhichIsA("ImageLabel").Visible = true
+						local chk = ref.check:FindFirstChildWhichIsA("ImageLabel")
+						if chk then chk.Visible = true end
 					end
 					updateLabel()
 					if mc.Callback then mc.Callback(m.Value) end
@@ -1317,12 +1391,6 @@ function Gokai:AddTab(cfg)
 	return tab
 end
 
-function Gokai:_applyTheme(name)
-	local theme = THEMES[name]
-	if not theme then return end
-	for k, v in pairs(theme) do THEME[k] = v end
-end
-
 function Gokai:_buildSettingsTab()
 	local stab = self:AddTab({ Name = "UI Settings", Icon = "settings" })
 	stab._btn.LayoutOrder = 9999
@@ -1334,18 +1402,18 @@ function Gokai:_buildSettingsTab()
 	for k in pairs(THEMES) do table.insert(themeNames, k) end
 	table.sort(themeNames)
 
-	themeBox:AddDropdown({
-		Name    = "Select Theme",
-		Options = themeNames,
-		Default = "Midnight",
-		Callback = function(v)
-			self:_applyTheme(v)
-		end,
+	local themeDrop = themeBox:AddDropdown({
+		Name     = "Select Theme",
+		Options  = themeNames,
+		Default  = self._currentTheme,
 	})
 
 	themeBox:AddButton({
-		Name     = "Reset to Midnight",
-		Callback = function() self:_applyTheme("Midnight") end,
+		Name     = "Apply Theme",
+		Callback = function()
+			local name = themeDrop.Value
+			if name then self:_applyTheme(name) end
+		end,
 	})
 
 	local configNameInput = configBox:AddInput({
@@ -1353,46 +1421,45 @@ function Gokai:_buildSettingsTab()
 		Placeholder = "Enter name...",
 	})
 
-	local savedConfigs   = listConfigs()
-	local configDropdown = { _lbl = nil, _popup = nil, Value = nil }
-	local autoloadName   = getAutoload()
-
 	configBox:AddButton({
 		Name = "Save Config",
 		Callback = function()
 			local name = configNameInput.Value
-			if not name or name == "" then return end
+			if not name or name:gsub("%s","") == "" then return end
 			local data = {}
-			for flag, obj in pairs(self._values or {}) do
+			for flag, obj in pairs(self._flags) do
 				data[flag] = obj.Value
 			end
-			saveConfig(name, data)
-			savedConfigs = listConfigs()
+			local ok = saveConfig(name, data)
+			if ok then
+				cfgDrop:Refresh(listConfigs())
+			end
 		end,
 	})
 
+	local savedConfigs = listConfigs()
 	local cfgDrop = configBox:AddDropdown({
 		Name    = "Saved Configs",
 		Options = savedConfigs,
 	})
 
 	configBox:AddButton({
-		Name = "Load",
+		Name = "Load Config",
 		Callback = function()
 			local name = cfgDrop.Value
 			if not name then return end
 			local data = loadConfig(name)
 			if not data then return end
 			for flag, val in pairs(data) do
-				if self._values and self._values[flag] then
-					self._values[flag]:Set(val)
+				if self._flags[flag] then
+					self._flags[flag]:Set(val)
 				end
 			end
 		end,
 	})
 
 	configBox:AddButton({
-		Name = "Set as Autoload",
+		Name = "Set Autoload",
 		Callback = function()
 			local name = cfgDrop.Value
 			if not name then return end
@@ -1411,7 +1478,8 @@ function Gokai:_buildSettingsTab()
 			local name = cfgDrop.Value
 			if not name then return end
 			deleteConfig(name)
-			savedConfigs = listConfigs()
+			cfgDrop:Set(nil)
+			cfgDrop:Refresh(listConfigs())
 		end,
 	})
 
@@ -1419,11 +1487,13 @@ function Gokai:_buildSettingsTab()
 	if al then
 		local data = loadConfig(al)
 		if data then
-			for flag, val in pairs(data) do
-				if self._values and self._values[flag] then
-					self._values[flag]:Set(val)
+			task.defer(function()
+				for flag, val in pairs(data) do
+					if self._flags[flag] then
+						self._flags[flag]:Set(val)
+					end
 				end
-			end
+			end)
 		end
 	end
 end
