@@ -5,7 +5,9 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
-local Lucide = loadstring(game:HttpGet("https://raw.githubusercontent.com/Orvez83/IconFinder/refs/heads/main/Icons/Lucide-Icons.lua"))()
+local LucideLoaded, LucideModule = pcall(function()
+	return (loadstring(game:HttpGet("https://gitlab.com/upio/lucide-roblox-direct/-/raw/main/source.lua")))()
+end)
 
 local THEME = {
 	Background  = Color3.fromRGB(5,   5,   5),
@@ -76,18 +78,27 @@ local function GradientTransparency(parent, stops, rotation)
 	})
 end
 
+local function GetIcon(name)
+	if not LucideLoaded or not LucideModule or not name or name == "" then return nil end
+	local ok, icon = pcall(LucideModule.GetAsset, name)
+	if not ok or not icon then return nil end
+	return icon
+end
+
 local function Icon(parent, name, size, pos, color)
 	if not name or name == "" then return nil end
-	local id = type(Lucide) == "table" and (Lucide[name] or Lucide[name:lower()]) or nil
-	if not id then return nil end
+	local icon = GetIcon(name)
+	if not icon then return nil end
 	return New("ImageLabel", {
-		Size = size or UDim2.new(0, 14, 0, 14),
-		Position = pos or UDim2.new(0, 0, 0.5, -7),
+		Size             = size or UDim2.new(0, 14, 0, 14),
+		Position         = pos or UDim2.new(0, 0, 0.5, -7),
 		BackgroundTransparency = 1,
-		Image = id,
-		ImageColor3 = color or THEME.TextSub,
-		ScaleType = Enum.ScaleType.Fit,
-		Parent = parent,
+		Image            = icon.Url or icon.Id or "",
+		ImageRectOffset  = icon.ImageRectOffset or Vector2.zero,
+		ImageRectSize    = icon.ImageRectSize   or Vector2.zero,
+		ImageColor3      = color or THEME.TextSub,
+		ScaleType        = Enum.ScaleType.Crop,
+		Parent           = parent,
 	})
 end
 
