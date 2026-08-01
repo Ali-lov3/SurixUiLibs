@@ -563,6 +563,7 @@ end
 function Gokai:AddTab(cfg)
 	cfg = cfg or {}
 	local tab = { Name = cfg.Name or "Tab", Icon = cfg.Icon or "", Groups = {} }
+local owner = self
 
 	local inputSink  = self._inputSink
 	local popupLayer = self._popupLayer
@@ -740,7 +741,7 @@ function Gokai:AddTab(cfg)
 		gb._body = body
 		table.insert(tab.Groups, gb)
 
-		local gflags = self._flags
+local gflags = owner._flags
 
 		local function rowOrd() return #body:GetChildren() end
 
